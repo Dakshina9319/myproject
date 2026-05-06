@@ -1,0 +1,328 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CatCode UI Concept</title>
+  <style>
+    :root {
+      --orange: #f79256;
+      --beige: #fbd1a2;
+      --sage: #7dcfb6;
+      --cyan: #00b2ca;
+      --navy: #1d4e89;
+      --bg: #f7f3ed;
+      --panel: rgba(255, 255, 255, 0.72);
+      --text: #14355f;
+      --muted: #51739f;
+      --shadow: 0 16px 44px rgba(29, 78, 137, 0.16);
+      --radius: 18px;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: Inter, Geist, "SF Pro Display", Satoshi, system-ui, sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(1200px 600px at 10% -10%, rgba(125, 207, 182, 0.22), transparent),
+        radial-gradient(1100px 800px at 95% 5%, rgba(0, 178, 202, 0.18), transparent),
+        var(--bg);
+      line-height: 1.5;
+    }
+
+    .app {
+      max-width: 1400px;
+      margin: 0 auto;
+      min-height: 100vh;
+      padding: 28px;
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      gap: 24px;
+    }
+
+    .card {
+      background: var(--panel);
+      border: 1px solid rgba(29, 78, 137, 0.12);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(8px);
+    }
+
+    .sidebar {
+      padding: 22px;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 650;
+      letter-spacing: 0.2px;
+    }
+
+    .cat-mark {
+      width: 34px;
+      height: 34px;
+      background: linear-gradient(135deg, var(--orange), var(--cyan));
+      border-radius: 12px;
+      position: relative;
+      transform: rotate(45deg);
+    }
+
+    .cat-mark::before,
+    .cat-mark::after {
+      content: "";
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      background: #fff;
+      border-radius: 50%;
+      top: 9px;
+    }
+    .cat-mark::before { left: 7px; }
+    .cat-mark::after { right: 7px; }
+
+    .menu {
+      display: grid;
+      gap: 8px;
+    }
+
+    .item {
+      border-radius: 12px;
+      padding: 11px 12px;
+      color: var(--muted);
+      display: flex;
+      justify-content: space-between;
+      transition: .24s ease;
+      cursor: pointer;
+    }
+
+    .item:hover,
+    .item.active {
+      background: rgba(0, 178, 202, 0.13);
+      color: var(--navy);
+      transform: translateX(2px);
+    }
+
+    .main {
+      display: grid;
+      gap: 20px;
+      grid-template-rows: auto 1fr auto;
+    }
+
+    .hero {
+      padding: 28px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+    }
+
+    h1 { margin: 0 0 8px; font-size: 2rem; }
+    .sub { margin: 0; color: var(--muted); max-width: 60ch; }
+
+    .cta {
+      border: none;
+      background: linear-gradient(135deg, var(--orange), #f7a66f);
+      color: white;
+      padding: 12px 18px;
+      border-radius: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 10px 20px rgba(247, 146, 86, 0.35);
+      transition: transform .2s ease;
+    }
+    .cta:hover { transform: translateY(-1px); }
+
+    .chat {
+      padding: 24px;
+      display: grid;
+      grid-template-rows: 1fr auto;
+      gap: 16px;
+      min-height: 460px;
+    }
+
+    .thread { display: grid; gap: 14px; align-content: start; }
+
+    .bubble {
+      max-width: 80%;
+      padding: 14px 16px;
+      border-radius: 14px;
+      border: 1px solid rgba(29, 78, 137, 0.12);
+      background: white;
+    }
+    .bubble.ai { border-left: 4px solid var(--sage); }
+    .bubble.user { justify-self: end; background: rgba(0,178,202,0.08); border-left: 4px solid var(--cyan); }
+
+    .code {
+      margin-top: 10px;
+      background: #0f2540;
+      color: #dbeeff;
+      border-radius: 12px;
+      padding: 14px;
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: 0.86rem;
+      overflow-x: auto;
+    }
+
+    .prompt {
+      display: flex;
+      gap: 10px;
+      padding: 10px;
+      border-radius: 14px;
+      border: 1px solid rgba(29, 78, 137, 0.18);
+      background: white;
+    }
+    .prompt input {
+      border: 0;
+      flex: 1;
+      font-size: 0.98rem;
+      outline: none;
+      background: transparent;
+      color: var(--text);
+    }
+
+    .typing {
+      height: 20px;
+      width: 2px;
+      background: var(--cyan);
+      display: inline-block;
+      animation: blink 1s steps(2,end) infinite;
+      vertical-align: middle;
+    }
+
+    .loading {
+      padding: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .cat-loader {
+      width: 160px;
+      height: 70px;
+      position: relative;
+    }
+    .cat {
+      width: 54px;
+      height: 32px;
+      border-radius: 16px;
+      background: linear-gradient(135deg, var(--navy), #2d6aab);
+      position: absolute;
+      left: 8px;
+      top: 24px;
+      animation: catMove 2.8s ease-in-out infinite;
+    }
+    .cat::before, .cat::after {
+      content:"";
+      position:absolute;
+      top:-8px;
+      width: 12px; height: 12px;
+      background: var(--navy);
+      clip-path: polygon(50% 0, 0 100%, 100% 100%);
+    }
+    .cat::before { left: 8px; }
+    .cat::after { right: 8px; }
+    .yarn {
+      width: 20px; height: 20px; border-radius: 50%;
+      background: radial-gradient(circle at 30% 30%, #fff6, transparent), var(--cyan);
+      position: absolute;
+      right: 18px; top: 30px;
+      animation: yarnMove 2.8s ease-in-out infinite;
+      box-shadow: 0 0 0 6px rgba(0,178,202,0.14);
+    }
+
+    .widgets { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .widget { padding: 16px; }
+
+    @keyframes blink { 50% { opacity: 0; } }
+    @keyframes catMove {
+      0%,100% { transform: translateX(0); }
+      50% { transform: translateX(72px); }
+    }
+    @keyframes yarnMove {
+      0%,100% { transform: translateX(0); }
+      50% { transform: translateX(-30px); background: var(--orange); }
+    }
+
+    @media (max-width: 1080px) {
+      .app { grid-template-columns: 1fr; }
+      .sidebar { order: 2; }
+    }
+
+    .dark {
+      margin-top: 16px;
+      padding: 14px;
+      border-radius: 12px;
+      background: #0f223a;
+      color: #d7e7fa;
+      font-size: 0.92rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <aside class="sidebar card">
+      <div class="brand"><div class="cat-mark"></div>CatCode Studio</div>
+      <div class="menu">
+        <div class="item active">Workspace <span>⌘1</span></div>
+        <div class="item">Agents <span>⌘2</span></div>
+        <div class="item">Projects <span>⌘3</span></div>
+        <div class="item">Terminal <span>⌘4</span></div>
+        <div class="item">Settings <span>⌘,</span></div>
+      </div>
+      <div class="dark">Dark mode: deep navy surfaces, cyan focus rings, sage AI status accents, orange CTA only.</div>
+    </aside>
+
+    <main class="main">
+      <section class="hero card">
+        <div>
+          <h1>Claude-style AI coding UI, refined with a minimalist cat mascot.</h1>
+          <p class="sub">Premium developer workspace with calm intelligence: spacious layout, clean hierarchy, terminal-inspired widgets, and subtle futuristic interactions.</p>
+        </div>
+        <button class="cta">Start New Session</button>
+      </section>
+
+      <section class="chat card">
+        <div class="thread">
+          <div class="bubble ai">Empty state: “Ready when you are. Ask for architecture, refactors, or code reviews.”</div>
+          <div class="bubble user">Design a monorepo lint strategy.</div>
+          <div class="bubble ai">Here is a clean, staged rollout with CI checks and autofix lanes.
+            <div class="code">pnpm eslint . --cache
+pnpm prettier --check .
+biome check src --write</div>
+          </div>
+        </div>
+        <div class="prompt">
+          <input value="Ask CatCode anything about your project..." />
+          <span class="typing"></span>
+        </div>
+      </section>
+
+      <section class="widgets">
+        <div class="widget card loading">
+          <div>
+            <strong>Thinking indicator</strong><br />Cat chases yarn while model plans tools.
+          </div>
+          <div class="cat-loader"><div class="cat"></div><div class="yarn"></div></div>
+        </div>
+        <div class="widget card">
+          <strong>Design System Snapshot</strong>
+          <ul>
+            <li>Typography: Inter/Geist/SF Pro/Satoshi</li>
+            <li>Radius scale: 12 / 14 / 18</li>
+            <li>Shadow: deep navy tinted, low-noise</li>
+            <li>Accent roles: cyan interaction, orange CTA, sage calm state</li>
+          </ul>
+        </div>
+      </section>
+    </main>
+  </div>
+</body>
+</html>
